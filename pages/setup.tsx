@@ -1,6 +1,8 @@
 declare global {
     interface Window {
-        ethereum?: any;
+        ethereum?: {
+            request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
+        };
     }
 }
 
@@ -37,7 +39,7 @@ export default function SetupPage() {
                     params: [message, account],
                 });
 
-                router.push('/generated-summary');
+                router.push('/my-transactions');
             } catch (error) {
                 console.error("Failed to sign message or connect wallet", error);
             }

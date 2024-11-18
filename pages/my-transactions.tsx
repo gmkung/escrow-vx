@@ -21,7 +21,7 @@ export default function MyTransactionsPage() {
     useEffect(() => {
         const getUserAddress = async () => {
             if (window.ethereum) {
-                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' }) as string[];
                 setUserAddress(accounts[0]);
             }
         };
