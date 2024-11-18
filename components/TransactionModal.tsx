@@ -147,9 +147,54 @@ const TransactionModal: FC<TransactionModalProps> = ({ transaction, onClose, use
         return null;
     };
 
+    const generateTransactionText = () => {
+        const date = new Date(transaction.date).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        return `
+TRANSACTION AGREEMENT
+Transaction ID: ${transaction.id}
+Date: ${date}
+Status: ${transaction.status}
+
+PARTIES INVOLVED:
+Payer: ${transaction.payerAddress}
+Payee: ${transaction.payeeAddress}
+Smart Contract: ${transaction.escrowAddress}
+
+FINANCIAL TERMS:
+Amount in Escrow: ${transaction.amount} ETH
+
+AGREEMENT TERMS:
+1. TIME CONSTRAINTS
+   - Withdrawal Period: ${transaction.terms.withdrawalDays} days
+   - Cooldown Period: ${transaction.terms.cooldownDays} days
+
+2. PAYMENT CONDITIONS
+   - Refundable: ${transaction.terms.refundable ? 'Yes' : 'No'}
+   - Early Payment: ${transaction.terms.earlyPayment ? 'Allowed' : 'Not Allowed'}
+   - Push/Pull Options: ${transaction.terms.pushPullOptions ? 'Enabled' : 'Disabled'}
+
+3. CUSTOM TERMS AND CONDITIONS
+${transaction.terms.customTerms || 'No custom terms specified.'}
+
+${transaction.pendingAction ? `
+4. PENDING ACTIONS
+   Type: ${transaction.pendingAction.type}
+   Amount: ${transaction.pendingAction.amount} ETH
+   Requested By: ${transaction.pendingAction.requestedBy}
+` : ''}
+
+This agreement is enforced through smart contract ${transaction.escrowAddress}
+        `;
+    };
+
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-3xl p-6 max-w-2xl w-full">
+            <div className="bg-white rounded-3xl p-6 max-w-3xl w-full">
                 <div className="flex justify-between items-center mb-4">
                     <h3 className="text-xl font-semibold text-blue-700">Transaction Details</h3>
                     <button 
@@ -161,31 +206,12 @@ const TransactionModal: FC<TransactionModalProps> = ({ transaction, onClose, use
                 </div>
 
                 <div className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                        <div>
-                            <p className="font-semibold text-gray-700">Escrow Address</p>
-                            <p className="font-mono text-sm text-gray-600">{transaction.escrowAddress}</p>
-                        </div>
-                        <div>
-                            <p className="font-semibold text-gray-700">Amount</p>
-                            <p className="font-mono text-sm text-gray-600">{transaction.amount} ETH</p>
-                        </div>
-                    </div>
+                    {/* Prose Format Display */}
+                    <pre className="whitespace-pre-wrap font-mono text-sm text-gray-700 bg-gray-50 p-6 rounded-xl overflow-auto max-h-[calc(100vh-20rem)]">
+                        {generateTransactionText()}
+                    </pre>
 
-                    <div className="border-t pt-4">
-                        <p className="font-semibold text-gray-700 mb-2">Contract Terms</p>
-                        <ul className="space-y-2 text-sm text-gray-600">
-                            <li>Withdrawal Period: {transaction.terms.withdrawalDays} days</li>
-                            <li>Cooldown Period: {transaction.terms.cooldownDays} days</li>
-                            <li>Refundable: {transaction.terms.refundable ? 'Yes' : 'No'}</li>
-                            <li>Early Payment: {transaction.terms.earlyPayment ? 'Allowed' : 'Not Allowed'}</li>
-                            <li>Push/Pull Options: {transaction.terms.pushPullOptions ? 'Enabled' : 'Disabled'}</li>
-                            {transaction.terms.customTerms && (
-                                <li>Additional Terms: {transaction.terms.customTerms}</li>
-                            )}
-                        </ul>
-                    </div>
-
+                    {/* Pending Action Alert */}
                     {transaction.pendingAction && (
                         <div className="bg-yellow-50 p-4 rounded-xl">
                             <p className="font-semibold text-yellow-700">
@@ -203,6 +229,7 @@ const TransactionModal: FC<TransactionModalProps> = ({ transaction, onClose, use
                         </div>
                     )}
 
+                    {/* Action Buttons */}
                     <div className="border-t pt-4">
                         {renderActionButtons()}
                     </div>

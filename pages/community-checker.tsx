@@ -22,7 +22,7 @@ export default function CommunityCheckerPage() {
             <div className="mt-8 flex justify-center">
                 <div className="w-full max-w-lg md:max-w-2xl lg:max-w-3xl bg-white rounded-3xl shadow-lg p-6">
                     <header className="flex justify-between items-center py-4">
-                        <h1 className="text-3xl font-bold text-blue-700">Community Checker</h1>
+                        <h1 className="text-3xl font-bold text-blue-700">Community Transactions</h1>
                     </header>
 
                     <div className="my-4">

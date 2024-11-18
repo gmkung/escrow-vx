@@ -29,7 +29,7 @@ const Navbar: React.FC = () => {
 
                 <div className="flex items-center space-x-16">
                     <Link href="/setup/" className="hover:text-blue-500">Setup</Link>
-                    <Link href="/community-checker/" className="hover:text-blue-500">Community Checker</Link>
+                    <Link href="/community-checker/" className="hover:text-blue-500">Community Transactions</Link>
                     <Link href="/my-transactions/" className="hover:text-blue-500">My Transactions</Link>
                 </div>
             </div>
