@@ -9,6 +9,7 @@ declare global {
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Navbar from '../components/Navbar';
+import { Transaction } from '../types/transaction';
 
 // Add type for setup type
 type SetupType = 'escrow' | 'crowdfund';
@@ -105,8 +106,8 @@ export default function SetupPage() {
     const [setupType, setSetupType] = useState<SetupType>('escrow');
     const [transaction, setTransaction] = useState<Partial<Transaction>>({
         terms: {
-            withdrawalDays: '',
-            cooldownDays: '',
+            withdrawalDays: 0,
+            cooldownDays: 0,
             refundable: false,
             earlyPayment: false,
             pushPullOptions: false,
@@ -209,12 +210,12 @@ export default function SetupPage() {
                                             <input
                                                 type="number"
                                                 placeholder="Withdrawals possible after X days"
-                                                value={transaction.terms?.withdrawalDays === '' ? '' : transaction.terms?.withdrawalDays}
+                                                value={transaction.terms?.withdrawalDays || ''}
                                                 onChange={(e) => setTransaction(prev => ({
                                                     ...prev,
                                                     terms: {
                                                         ...prev.terms!,
-                                                        withdrawalDays: e.target.value === '' ? '' : parseInt(e.target.value)
+                                                        withdrawalDays: e.target.value === '' ? 0 : parseInt(e.target.value)
                                                     }
                                                 }))}
                                                 className="border border-blue-300 p-3 rounded-full w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
@@ -222,12 +223,12 @@ export default function SetupPage() {
                                             <input
                                                 type="number"
                                                 placeholder="Payment cooldown period of Y days"
-                                                value={transaction.terms?.cooldownDays === '' ? '' : transaction.terms?.cooldownDays}
+                                                value={transaction.terms?.cooldownDays || ''}
                                                 onChange={(e) => setTransaction(prev => ({
                                                     ...prev,
                                                     terms: {
                                                         ...prev.terms!,
-                                                        cooldownDays: e.target.value === '' ? '' : parseInt(e.target.value)
+                                                        cooldownDays: e.target.value === '' ? 0 : parseInt(e.target.value)
                                                     }
                                                 }))}
                                                 className="border border-blue-300 p-3 rounded-full w-full mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
@@ -238,12 +239,12 @@ export default function SetupPage() {
                                             <input
                                                 type="number"
                                                 placeholder="Campaign duration in days"
-                                                value={transaction.terms?.withdrawalDays === '' ? '' : transaction.terms?.withdrawalDays}
+                                                value={transaction.terms?.withdrawalDays ? '' : transaction.terms?.withdrawalDays}
                                                 onChange={(e) => setTransaction(prev => ({
                                                     ...prev,
                                                     terms: {
                                                         ...prev.terms!,
-                                                        withdrawalDays: e.target.value === '' ? '' : parseInt(e.target.value)
+                                                        withdrawalDays: e.target.value === '' ? 0 : parseInt(e.target.value)
                                                     }
                                                 }))}
                                                 className="border border-blue-300 p-3 rounded-full w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
@@ -251,12 +252,12 @@ export default function SetupPage() {
                                             <input
                                                 type="number"
                                                 placeholder="Minimum contribution amount (ETH)"
-                                                value={transaction.terms?.cooldownDays === '' ? '' : transaction.terms?.cooldownDays}
+                                                value={transaction.terms?.cooldownDays ? '' : transaction.terms?.cooldownDays}
                                                 onChange={(e) => setTransaction(prev => ({
                                                     ...prev,
                                                     terms: {
                                                         ...prev.terms!,
-                                                        cooldownDays: e.target.value === '' ? '' : parseInt(e.target.value)
+                                                        cooldownDays: e.target.value === '' ? 0 : parseInt(e.target.value)
                                                     }
                                                 }))}
                                                 className="border border-blue-300 p-3 rounded-full w-full mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"

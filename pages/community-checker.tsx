@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Navbar from '../components/Navbar';
-import TransactionModal, { Transaction } from '../components/TransactionModal';
+import TransactionModal from '../components/TransactionModal';
+import { Transaction } from '../types/transaction';
 import { sampleTransactions } from '../data/sampleTransactions';
 
 export default function CommunityCheckerPage() {

@@ -1,4 +1,4 @@
-import { Transaction } from '../components/TransactionModal';
+import { Transaction } from '../types/transaction';
 
 export const sampleTransactions: Transaction[] = [
     {

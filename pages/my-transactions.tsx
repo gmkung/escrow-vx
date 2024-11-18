@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
-import TransactionModal, { Transaction } from '../components/TransactionModal';
+import TransactionModal from '../components/TransactionModal';
+import { Transaction } from '../types/transaction';
 import { sampleTransactions } from '../data/sampleTransactions';
 
 export default function MyTransactionsPage() {
@@ -14,7 +15,7 @@ export default function MyTransactionsPage() {
     const filteredTransactions = transactions.filter(transaction => {
         const matchesStatus = filterStatus === 'all' || transaction.status.toLowerCase() === filterStatus;
         const matchesDate = (!dateRange.start || new Date(transaction.date) >= new Date(dateRange.start)) &&
-                            (!dateRange.end || new Date(transaction.date) <= new Date(dateRange.end));
+            (!dateRange.end || new Date(transaction.date) <= new Date(dateRange.end));
         return matchesStatus && matchesDate;
     });
 
@@ -83,8 +84,8 @@ export default function MyTransactionsPage() {
                                 </thead>
                                 <tbody className="divide-y divide-gray-200">
                                     {filteredTransactions.map(transaction => (
-                                        <tr 
-                                            key={transaction.id} 
+                                        <tr
+                                            key={transaction.id}
                                             onClick={() => setSelectedTransaction(transaction)}
                                             className="hover:bg-gray-50 cursor-pointer"
                                         >
@@ -101,7 +102,7 @@ export default function MyTransactionsPage() {
                     </div>
 
                     {selectedTransaction && (
-                        <TransactionModal 
+                        <TransactionModal
                             transaction={selectedTransaction}
                             onClose={() => setSelectedTransaction(null)}
                             userAddress={userAddress}
